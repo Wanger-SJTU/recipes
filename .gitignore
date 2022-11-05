@@ -1,0 +1,4 @@
+*.pdf
+*.json
+*.txt
+.pkl_memoize_py3
