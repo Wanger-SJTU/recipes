@@ -227,7 +227,6 @@ short f16_add(short a,short b)
     return r | sign;
 }
 
-
 short f16_mul(short a,short b)
 {
     int sign = (a ^ b) & SIGN_MASK;
@@ -427,6 +426,7 @@ int f16_lt(short a,short b)
         return 0;
     return f16_gt(b,a);
 }
+
 int f16_neq(short a,short b)
 {
     return !f16_eq(a,b);

@@ -34,23 +34,20 @@ void NVIDIA_fast_dequant_s8()
 
 void new_fast_dequant() 
 {
-    vector<int8_t> quant_int8 = {-1, 3, 4, 24};
+    vector<int8_t> quant_int8 = {-1, 3, -4, 24};
     
     for (auto item : quant_int8) {
-        uint16_t new_value1 = (0x007F & (1 << 7 | 1)) << 3;
-        uint16_t new_value2 = (0x0080 & (1 << 7 | 1)) << 3;
-        // cout << " origin " <<  bitset<sizeof(item)*8>(1 << 7 | 1)  << 
-        //         " float1 " <<  bitset<sizeof(uint16_t)*8>(float16(new_value1).getBinary())  << 
-        //         " float2 " <<  bitset<sizeof(uint16_t)*8>(float16(new_value2).getBinary())  << endl;
-
+        uint16_t exp_bias = 11 << 11;
+        uint16_t new_value1 = ((0x007F & (item)) << 3) | exp_bias;
+        uint16_t new_value2 = ((0x0080 & (item)) << 3) | exp_bias;
         cout << "origin " << static_cast<int>(item) << 
-              " float " << float16(new_value1).toFloat() - float16(new_value2).toFloat() << endl;
+              " float " << (float16(new_value1) - float16(new_value2)).toFloat() << endl;
     }
 }
 
 int main() 
 {
     // NVIDIA_fast_dequant();
-    NVIDIA_fast_dequant_s8();
+    new_fast_dequant();
     return 0;
 }
